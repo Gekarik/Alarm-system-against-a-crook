@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour, IIntruder
 {
-    [SerializeField] private float _rotateSpeed = 15f;
-    [SerializeField] private float _moveSpeed = 5f;
-
     private const string Horizontal = nameof(Horizontal);
     private const string Vertical = nameof(Vertical);
+
+    [SerializeField] private float _rotateSpeed = 15f;
+    [SerializeField] private float _moveSpeed = 5f;
 
     private void Update()
     {
