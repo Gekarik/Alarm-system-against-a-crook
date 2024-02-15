@@ -1,40 +1,28 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class Alarm : MonoBehaviour
 {
-    [SerializeField, Range(0f, 1f)] private float _speedVolumeChange;
     [SerializeField] private AudioSource _audioSource;
+    [SerializeField, Range(0f, 1f)] private float _speedVolumeChange = 0.15f;
 
-    IntruderDetector _detector;
+    private float _minValue = 0f;
+    private float _maxValue = 1f;
     private Coroutine _volumeChangeCoroutine;
-    private float _maxVolume = 1f;
-    private float _minVolume = 0f;
 
-    private void Awake()
-    {
-        _detector = GetComponent<IntruderDetector>();
-    }
-
-    private void Start()
-    {
-        if (_detector != null)
-            _detector.OnIntruderDetected += HandleIntruderDetected;
-    }
-
-    private void HandleIntruderDetected(bool inside)
+    public void HandleIntruderDetected(bool inside)
     {
         if (_volumeChangeCoroutine != null)
             StopCoroutine(_volumeChangeCoroutine);
 
-        if (_audioSource.isPlaying==false)
-            _audioSource.Play();  
-
-        _volumeChangeCoroutine = StartCoroutine(ChangeVolume(inside ? _maxVolume : _minVolume));
+        _volumeChangeCoroutine = StartCoroutine(ChangeVolume(inside ? _maxValue : _minValue));
     }
 
     private IEnumerator ChangeVolume(float targetVolume)
     {
+        if (_audioSource.isPlaying == false)
+            _audioSource.Play();
+
         while (_audioSource.volume != targetVolume)
         {
             _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, targetVolume, _speedVolumeChange * Time.deltaTime);
