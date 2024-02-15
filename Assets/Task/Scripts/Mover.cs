@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class Mover : MonoBehaviour
+public class Mover : MonoBehaviour, IIntruder
 {
     [SerializeField] private float _rotateSpeed = 15f;
     [SerializeField] private float _moveSpeed = 5f;
